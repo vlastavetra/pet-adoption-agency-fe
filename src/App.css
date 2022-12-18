@@ -1,0 +1,11 @@
+.body-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 50px 10%;
+}
+
+.main-container {
+  flex-grow: 1;
+}
