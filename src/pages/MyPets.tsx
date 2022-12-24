@@ -2,14 +2,11 @@ import '../App.css';
 
 function MyPets() {
   return (
-    <>
-    <header>
-      <h1>Pet Adoption Agency</h1>
-    </header>
-    <main>
-
+    <main className="main-container">
+      <section className="welcome-section">
+        <h1 className="title-h1">My pets</h1>
+      </section>
     </main>
-    </>
   );
 }
 

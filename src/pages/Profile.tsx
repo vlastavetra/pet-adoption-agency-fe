@@ -1,16 +1,15 @@
 import '../App.css';
 
-function Home() {
+function Profile() {
+  const userName = "John Snow"
   return (
-    <>
-    <header>
-      <h1>Pet Adoption Agency</h1>
-    </header>
-    <main>
-
+    <main className="main-container">
+      <section className="welcome-section">
+        <h1 className="title-h1">Hi {userName}</h1>
+        <p className="text-medium">You can change some information here</p>
+      </section>
     </main>
-    </>
   );
 }
 
-export default Home;
+export default Profile;
