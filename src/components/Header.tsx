@@ -1,19 +1,20 @@
-import {FC, useContext} from 'react'
+import {FC, useContext} from "react"
 import {Link} from "react-router-dom"
 //import {useLocation} from "react-router"
 import {AuthContext} from "../context/AuthContext"
-import '../App.css'
+import "../App.css"
 
 interface HeaderProps {
   showLoginModal?: React.Dispatch<React.SetStateAction<boolean>>
   showSignupModal?: React.Dispatch<React.SetStateAction<boolean>>
-  setAuth?: Function
+  setUser?: Function
+  setToken?: Function
 }
 
-const Header: FC<HeaderProps> = ({showLoginModal, showSignupModal, setAuth}) => {
+const Header: FC<HeaderProps> = ({showLoginModal, showSignupModal, setUser, setToken}) => {
   //const location = useLocation()
-  const {auth} = useContext(AuthContext);
-  const isAdmin = true;
+  const {user} = useContext(AuthContext);
+  const isAdmin = false;
 
   function onLoginClickHandler() {
     showLoginModal!(true)
@@ -24,13 +25,15 @@ const Header: FC<HeaderProps> = ({showLoginModal, showSignupModal, setAuth}) => 
   }
 
   function onLogoutClickHandler() {
-    localStorage.removeItem("auth");
-    setAuth!(false);
+    localStorage.removeItem("user")
+    localStorage.removeItem("token")
+    setUser!(false)
+    setToken!("")
   }
 
   return (
     <header className="header-container">
-      {auth ?
+      {user ?
         <div className="button-container">
           <Link to="/" className="button button-header" onClick={() => {onLogoutClickHandler!()}}>
             <span>Logout</span>

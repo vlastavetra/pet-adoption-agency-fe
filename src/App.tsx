@@ -1,7 +1,7 @@
 import './App.css'
 import {useState} from "react"
 import {Routes, Route} from "react-router-dom"
-import {AuthContext} from "./context/AuthContext";
+import {AuthContext} from "./context/AuthContext"
 import Home from './pages/Home'
 import Profile from './pages/Profile'
 import MyPets from './pages/MyPets'
@@ -16,15 +16,16 @@ import SignupModal from "./components/SignupModal"
 function App() {
   const [loginModal, showLoginModal] = useState(false)
   const [signupModal, showSignupModal] = useState(false)
-  const [auth, setAuth] = useState(localStorage.getItem("auth")!) || false;
+  const [user, setUser] = useState(localStorage.getItem("")!) || false
+  const [token, setToken] = useState(localStorage.getItem("")!) || false
 
   return (
-    <AuthContext.Provider value={{auth}}>
+    <AuthContext.Provider value={{user, token}}>
       <div className="body-container">
         <Header
           showLoginModal={showLoginModal}
           showSignupModal={showSignupModal}
-          setAuth={setAuth}
+          setUser={setUser}
         />
         <Routes>
           <Route path="/" element={<Home/>}/>
@@ -35,7 +36,7 @@ function App() {
           <Route path="/add-pet" element={<AddPet/>}/>
           <Route path="/dashboard" element={<Dashboard/>}/>
         </Routes>
-        {loginModal && <LoginModal showLoginModal={showLoginModal} setAuth={setAuth}/>}
+        {loginModal && <LoginModal showLoginModal={showLoginModal} setUser={setUser} setToken={setToken}/>}
         {signupModal && <SignupModal showSignupModal={showSignupModal}/>}
       </div>
     </AuthContext.Provider>

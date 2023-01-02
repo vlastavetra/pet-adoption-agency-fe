@@ -1,11 +1,13 @@
 import {createContext} from "react";
 
 interface AuthContextType {
-  auth: string;
+  user: string
+  token: string
 }
 
 const initialState = {
-  auth: ""
+  user: "",
+  token: ""
 };
 
 export const AuthContext = createContext<AuthContextType>(initialState);

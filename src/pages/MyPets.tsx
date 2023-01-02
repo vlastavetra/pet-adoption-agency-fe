@@ -1,6 +1,7 @@
-import '../App.css';
+import "../App.css";
 
 function MyPets() {
+
   return (
     <main className="main-container">
       <section className="welcome-section">
