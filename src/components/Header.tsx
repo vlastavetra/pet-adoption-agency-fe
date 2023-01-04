@@ -11,9 +11,9 @@ interface HeaderProps {
   setToken?: Function
 }
 
-const Header: FC<HeaderProps> = ({showLoginModal, showSignupModal, setUser, setToken}) => {
+const Header: FC<HeaderProps> = ({showLoginModal, showSignupModal}) => {
   //const location = useLocation()
-  const {user} = useContext(AuthContext);
+  const {user, setUser, setToken} = useContext(AuthContext)
   const isAdmin = false;
 
   function onLoginClickHandler() {

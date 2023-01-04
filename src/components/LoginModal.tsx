@@ -1,6 +1,6 @@
-import {FC} from "react"
-import {useState} from "react"
+import {FC, useContext, useState} from "react"
 import axios from "axios"
+import {AuthContext} from "../context/AuthContext"
 import "../App.css"
 
 interface LoginModalProps {
@@ -9,7 +9,8 @@ interface LoginModalProps {
   setToken?: React.Dispatch<any>
 }
 
-const LoginModal: FC<LoginModalProps> = ({showLoginModal, setUser, setToken}) => {
+const LoginModal: FC<LoginModalProps> = ({showLoginModal}) => {
+  const {setUser, setToken} = useContext(AuthContext)
   const [userData, setUserData] = useState({email:"", password:""})
 
   const onChangeHandler = (e?: { target: { value?: any; name?: any } } | undefined) => {
@@ -21,9 +22,8 @@ const LoginModal: FC<LoginModalProps> = ({showLoginModal, setUser, setToken}) =>
     e?.preventDefault()
     try {
       const res = await axios.post("http://127.0.0.1:4000/login", userData)
-      console.log(res.data)
 
-      if(res.data) {
+      if(res.data.token) {
         localStorage.setItem("user", `${res.data.firstname} ${res.data.lastname}`)
         localStorage.setItem("token", res.data.token)
         setUser!(`${res.data.firstname} ${res.data.lastname}`)
