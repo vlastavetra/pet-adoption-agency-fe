@@ -296,3 +296,10 @@
   font-size: 20px;
   margin-bottom: 10px;
 }
+
+.pet-info-button-container {
+  margin-top: 30px;
+  width: 100%;
+  display: flex;
+  gap: 20px;
+}

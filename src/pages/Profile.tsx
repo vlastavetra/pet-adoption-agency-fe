@@ -1,9 +1,27 @@
-import {useContext} from "react"
+import {useState, useEffect, useContext} from "react"
+import axios from "axios"
 import {AuthContext} from "../context/AuthContext"
 import "../App.css";
 
 function Profile() {
-  const {user} = useContext(AuthContext);
+  const [userData, setUserData] = useState<{}>({}) || null
+  const {user} = useContext(AuthContext)
+  const userId = localStorage.getItem("userId")
+
+  const getUserData = async () => {
+    try {
+      const res = await axios.get(`http://127.0.0.1:4000/user/${userId}`)
+      setUserData(res.data)
+      console.log(userData)
+    } catch(err) {
+      console.log(err)
+    }
+  }
+
+  useEffect(() => {
+    getUserData()
+  }, [])
+
   return (
     <main className="main-container">
       <section className="welcome-section">
