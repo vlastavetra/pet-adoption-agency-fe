@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react"
 import axios from "axios"
-import "../App.css"
+import "../App.sass"
 import PetsList from "../components/PetsList"
 
 function Search() {
@@ -21,8 +21,8 @@ function Search() {
 
   return (
     <main className="main-container">
-      <section className="welcome-section">
-        <h1 className="title-h1">Search</h1>
+      <h1 className="title-h1">Search</h1>
+      <section className="section-container">
         <PetsList pets={pets}/>
       </section>
     </main>

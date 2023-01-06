@@ -1,17 +1,19 @@
 import { FC } from "react"
 import { Link } from "react-router-dom"
+import "./PetCard.sass"
 
 interface PetsCardProps {
   id: string
-  name: string
   type: string
   adoptionStatus: boolean
   breed: string
   hypoallergnic: boolean
   picture: string
+  petName: string
 }
 
-const PetsCard: FC<PetsCardProps> = ({ id, type, hypoallergnic, adoptionStatus, name, breed, picture }) => {
+const PetsCard: FC<PetsCardProps> = ({ id, type, hypoallergnic, adoptionStatus, petName, breed, picture }) => {
+  var name = ""
   return (
     <li className="pet-cards-item">
       <Link
@@ -46,7 +48,7 @@ const PetsCard: FC<PetsCardProps> = ({ id, type, hypoallergnic, adoptionStatus, 
           }
         </div>
         <div className="pet-card-container-v">
-          <span className="pet-card-text text-medium">{name}</span>
+          <span className="pet-card-text pet-card-name">{petName}</span>
           <span className="pet-card-text">{breed}</span>
         </div>
         <img className="pet-card-img" src={picture} alt={`${type} ${breed} ${name}`} />

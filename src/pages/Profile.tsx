@@ -1,7 +1,7 @@
 import {useState, useEffect, useContext} from "react"
 import axios from "axios"
 import {AuthContext} from "../context/AuthContext"
-import "../App.css";
+import "../App.sass";
 
 function Profile() {
   const [userData, setUserData] = useState<{}>({}) || null
@@ -24,7 +24,7 @@ function Profile() {
 
   return (
     <main className="main-container">
-      <section className="welcome-section">
+      <section className="section-container">
         <h1 className="title-h1">Hi {user}!</h1>
         <p className="text-medium">You can change your information here</p>
       </section>

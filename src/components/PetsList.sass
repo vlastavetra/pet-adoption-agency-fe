@@ -1,0 +1,23 @@
+@import ../App.sass
+
+.pet-cards-list
+  list-style: none
+  display: grid
+  gap: 40px
+  margin-top: 50px
+
+@media (max-width: $BP1)
+  .pet-cards-list
+    grid-template-columns: 1fr
+
+@media (min-width: $BP2)
+  .pet-cards-list
+    grid-template-columns: 1fr 1fr
+
+@media (min-width: $BP3)
+  .pet-cards-list
+    grid-template-columns: 1fr 1fr 1fr
+
+@media (min-width: $BP4)
+  .pet-cards-list
+      grid-template-columns: 1fr 1fr 1fr 1fr

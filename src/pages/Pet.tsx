@@ -1,12 +1,13 @@
-import {useContext, useState, useEffect} from "react"
-import {useParams} from "react-router-dom"
-import {AuthContext} from "../context/AuthContext"
+import { useContext, useState, useEffect } from "react"
+import { useParams } from "react-router-dom"
+import { AuthContext } from "../context/AuthContext"
 import axios from "axios"
-import "../App.css"
+import Button from "../elements/Button"
+import "../App.sass"
 
 function Pet() {
   const [pet, setPet] = useState<{
-    name?: string
+    petName?: string
     type?: string
     adoptionStatus?: boolean
     breed?: string
@@ -18,25 +19,25 @@ function Pet() {
     dietery?: Array<String>
     picture?: string
     adoptedByUser?: string
-    savedByUsers?: Array<String>   
+    savedByUsers?: Array<String>
   }>({}) || null
 
-  const {token} = useContext(AuthContext)
+  const { token } = useContext(AuthContext)
 
   const { id: petId } = useParams()
 
   const getPet = async () => {
     try {
-      const res = await axios.get(`http://127.0.0.1:4000/pet/${petId}`, {headers: {authorization: `Bearer ${token}`}})
+      const res = await axios.get(`http://127.0.0.1:4000/pet/${petId}`, { headers: { authorization: `Bearer ${token}` } })
       setPet(res.data)
     } catch (err) {
       console.log(err);
     }
   }
 
-  const updatePetStatus  = async (action: string) => {
+  const updatePetStatus = async (action: string) => {
     try {
-      const res = await axios.patch(`http://127.0.0.1:4000/pet/${petId}/${action}`, {}, {headers: {authorization: `Bearer ${token}`}})
+      const res = await axios.patch(`http://127.0.0.1:4000/pet/${petId}/${action}`, {}, { headers: { authorization: `Bearer ${token}` } })
       setPet(res.data)
     } catch (err) {
       console.log(err);
@@ -53,8 +54,8 @@ function Pet() {
 
   return (
     <main className="main-container">
-      <h1 className="title-h1 pet-info-title">Hi i'm {pet.name} the {pet.type}</h1>
-      <section className="welcome-section pet-info-container">
+      <h1 className="title-h1 pet-info-title">Hi i'm {pet.petName} the {pet.type}</h1>
+      <section className="section-container pet-info-container">
         <div className="pet-info-container-left">
           <div className="pet-info-table">
             <div className="pet-info-row">
@@ -106,27 +107,36 @@ function Pet() {
           }
           <div className="pet-info-button-container">
             {pet.adoptedByUser ?
-              <button className="button button-header" onClick={() => { onClickHandler!("return") }}>
-                <span>Return</span>
-              </button> :
+              <Button
+                text="Return"
+                color="gray"
+                onClickHandler={() => onClickHandler!("return")}
+              />
+              :
               !pet.adoptionStatus ?
-              <button className="button button-header" onClick={() => { onClickHandler!("adopt") }}>
-                <span>Adopt</span>
-              </button> :
-              null
+                <Button
+                  text="Adopt"
+                  color="blue"
+                  onClickHandler={() => onClickHandler!("adopt")}
+                /> :
+                null
             }
             {pet.savedByUsers?.length ?
-              <button className="button button-header" onClick={() => { onClickHandler!("unsave") }}>
-                <span>Unsave</span>
-              </button> :
-              <button className="button button-header" onClick={() => { onClickHandler!("save") }}>
-                <span>Save</span>
-              </button>
+              <Button
+                text="Unsave"
+                color="gray"
+                onClickHandler={() => onClickHandler!("unsave")}
+              /> :
+              <Button
+                text="Save"
+                color="blue"
+                onClickHandler={() => onClickHandler!("save")}
+              />
             }
           </div>
         </div>
         <div className="pet-info-container-right">
-          <img className="pet-info-img" src={pet.picture} alt={`${pet.type} ${pet.breed} ${pet.name}`} />
+          <img className="pet-info-img" src={pet.picture} alt={`${pet.type} ${pet.breed} ${pet.petName}`} />
         </div>
       </section>
     </main>
