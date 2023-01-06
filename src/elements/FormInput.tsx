@@ -1,5 +1,5 @@
 import { FC } from "react"
-import "../App.css"
+import "../App.sass"
 
 interface LoginModalProps {
   onChangeHandler?: React.Dispatch<React.SetStateAction<boolean>>

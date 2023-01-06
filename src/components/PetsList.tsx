@@ -1,8 +1,9 @@
 import { FC } from "react"
 import PetsCard from "./PetsCard"
+import "./PetsList.sass"
 
 interface PetsListProps {
-  pets: Array<any>,
+  pets: Array<any>
 }
 
 const PetsList: FC<PetsListProps> = ({pets}) => {

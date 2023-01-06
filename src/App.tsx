@@ -1,4 +1,4 @@
-import "./App.css"
+import "./App.sass"
 import {useState} from "react"
 import {Routes, Route} from "react-router-dom"
 import {AuthContext} from "./context/AuthContext"

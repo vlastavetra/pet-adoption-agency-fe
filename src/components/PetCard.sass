@@ -1,0 +1,49 @@
+@import ../App.sass
+
+.pet-cards-item
+  height: 100%
+  position: relative
+  overflow: hidden
+  display: flex
+  flex-direction: column
+  background: $color-gray-light
+  border-radius: 8%
+  transition: all .3s ease
+
+.pet-cards-item:hover
+  transform: translateY(-3%)
+  transition: all .3s ease
+
+.pet-cards-link
+  display: flex
+  flex-direction: column
+  text-decoration: none
+  height: 100%
+  color: black
+
+.pet-card-container-h
+  display: flex
+  justify-content: space-between
+  padding: 20px
+
+.pet-card-container-v
+  display: flex
+  flex-direction: column
+  align-content: flex-start
+  padding: 20px
+  gap: 5px
+  flex-grow: 1
+
+.pet-card-icon
+  width: 25px
+
+.pet-card-text
+  text-align: left
+
+.pet-card-name
+  font-size: 22px
+  font-weight: 500
+  margin-bottom: 5px
+
+.pet-card-img
+  border-radius: 8%
