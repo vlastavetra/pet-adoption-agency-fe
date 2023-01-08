@@ -6,11 +6,12 @@ interface LoginModalProps {
   color?: string
   onClickHandler?: Function | void
   style?: string
+  className?: string
 }
 
-const LoginModal: FC<LoginModalProps> = ({ text, color = "green", style = "outline-none", onClickHandler = () => {} }) => {
+const LoginModal: FC<LoginModalProps> = ({ text, color = "green", style = "outline-none", className = "button", onClickHandler = () => {} }) => {
   return (
-    <button className={`button button-${color} button-${style}`} onClick={() => onClickHandler!()} type="button">
+    <button className={`button button-${color} button-${style} ${className}`} onClick={() => onClickHandler!()} type="button">
       <span>{text}</span>
     </button>
   );

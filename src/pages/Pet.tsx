@@ -4,6 +4,7 @@ import { AuthContext } from "../context/AuthContext"
 import axios from "axios"
 import Button from "../elements/Button"
 import "../App.sass"
+import "./Pet.sass"
 
 function Pet() {
   const [pet, setPet] = useState<{
