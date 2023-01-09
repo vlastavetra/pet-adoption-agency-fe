@@ -1,28 +1,25 @@
-import { FC } from "react"
-import "../App.sass"
+import { ChangeEventHandler, FC } from "react"
+import "./FormInput.sass"
 
-interface LoginModalProps {
-  onChangeHandler?: React.Dispatch<React.SetStateAction<boolean>>
+interface FormInputProps {
+  onChangeHandler?: ChangeEventHandler<HTMLInputElement> | undefined
   type?: string
+  name?: string
   id?: string
-  label?: string
+  value?: string
 }
 
-const LoginModal: FC<LoginModalProps> = ({ onChangeHandler, type, id, label }) => {
+const FormInput: FC<FormInputProps> = ({ onChangeHandler, type, name, id, value }) => {
   return (
-    <fieldset className="form-fieldset">
-      <label htmlFor={id} className="form-label">{label}</label>
-      <input
-        className="form-input"
-        id={id}
-        name={id}
-        type={type}
-        //onChange={onChangeHandler}
-        //value={note.title}
-      >
-      </input>
-    </fieldset>
+    <input
+      className="form-input"
+      id={id}
+      name={name}
+      type={type}
+      onChange={onChangeHandler}
+      value={value}
+    />
   );
 }
 
-export default LoginModal;
+export default FormInput;

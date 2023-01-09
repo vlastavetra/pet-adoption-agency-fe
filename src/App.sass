@@ -13,15 +13,6 @@ $BP3: 1000px
 $BP4: 1300px
 $BP5: 2500px
 
-.body-container
-  position: relative
-  display: flex
-  flex-direction: column
-  height: 100vh
-  padding: 0 10%
-  background-color: $color-gray
-  font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif
-
 .main-container
   display: flex
   flex-direction: column
@@ -61,12 +52,13 @@ $BP5: 2500px
 
 .modal-wrapper
   position: absolute
-  width: 400px
+  min-width: 500px
   height: auto
   top: 10%
+  bottom: 3%
   left: 50%
   transform: translateX(-50%)
-  padding: 30px 40px 30px
+  padding: 50px 50px 40px
   background-color: $color-gray-light
   border-radius: 4px
 
@@ -77,48 +69,10 @@ $BP5: 2500px
   width: 10px
   cursor: pointer
 
-.form
-  margin: 0 auto
-  width: 100%
-
-.form-fieldset
-  display: flex
-  flex-direction: column
-  width: 100%
-  gap: 10px
-  margin: 0 auto 20px
-  padding: 0
-  border: none
-  position: relative
-
-.form-input
-  width: 100%
-  padding: 8px
-  border-radius: 4px
-  border: 1px solid black
-  background: transparent
-
-.form-input-invalid
-  border: 1px solid tomato
-  animation: shake 0.7s cubic-bezier(.36,.07,.19,.97) both
-
 .form-button-group
   display: flex
   justify-content: end
   gap: 20px
-
-.form-button
-  display: flex
-  align-content: center
-  gap: 10px
-  cursor: pointer
-  padding: 6px 12px
-  font-size: 15px
-  color: white
-  background-color: var(--color-purple)
-  border-radius: 4px
-  border: none
-  box-shadow: var(--shadowLigt)
 
 .form-text
   margin-top: 2px

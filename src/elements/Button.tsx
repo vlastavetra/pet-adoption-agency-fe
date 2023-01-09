@@ -1,7 +1,7 @@
 import { FC } from "react"
 import "./Button.sass"
 
-interface LoginModalProps {
+interface ButtonProps {
   text?: string
   color?: string
   onClickHandler?: Function | void
@@ -9,7 +9,7 @@ interface LoginModalProps {
   className?: string
 }
 
-const LoginModal: FC<LoginModalProps> = ({ text, color = "green", style = "outline-none", className = "button", onClickHandler = () => {} }) => {
+const Button: FC<ButtonProps> = ({ text, color = "green", style = "outline-none", className = "", onClickHandler = () => {} }) => {
   return (
     <button className={`button button-${color} button-${style} ${className}`} onClick={() => onClickHandler!()} type="button">
       <span>{text}</span>
@@ -17,4 +17,4 @@ const LoginModal: FC<LoginModalProps> = ({ text, color = "green", style = "outli
   );
 }
 
-export default LoginModal;
+export default Button;

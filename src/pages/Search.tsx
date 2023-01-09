@@ -13,7 +13,7 @@ function Search() {
   const getPets = async () => {
     try {
       const res = await axios.get(`
-        http://127.0.0.1:4000/pets?search=type-${searchData.type}/status-${searchData.status}/height-${searchData.height}/weight-${searchData.weight}/petName-${searchData.petName}
+        http://127.0.0.1:4000/pet?search=type-${searchData.type}/status-${searchData.status}/height-${searchData.height}/weight-${searchData.weight}/petName-${searchData.petName}
       `)
       setPets(res.data)
     } catch (err) {
@@ -101,12 +101,14 @@ function Search() {
               </fieldset>
             </div>
           }
-          <Button
-            text="Show results"
-            color="blue"
-            className="button-search"
-            onClickHandler={onClickHandler!}
-          />
+          <fieldset className="form-fieldset">
+            <Button
+              text="Show results"
+              color="blue"
+              className="button-search"
+              onClickHandler={onClickHandler!}
+            />
+          </fieldset>
         </form>
       </section>
       <section className="section-container">
