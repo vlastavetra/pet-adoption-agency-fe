@@ -9,16 +9,17 @@ import "./Pet.sass"
 
 function Pet() {
   const [pet, setPet] = useState<{
+    id?: string
     petName?: string
     type?: string
-    adoptionStatus?: boolean
+    adoptionStatus?: string
     breed?: string
     color?: string
     height?: string
     weight?: string
     hypoallergnic?: boolean
     bio?: string
-    dietery?: Array<String>
+    dietery?: string
     picture?: string
     adoptedByUser?: string
     savedByUsers?: Array<String>
@@ -67,7 +68,7 @@ function Pet() {
           <div className="pet-info-table">
             <div className="pet-info-row">
               <span>My adoption status</span>
-              <span>{pet.adoptionStatus ? "Adopted" : "Fostered"}</span>
+              <span>{pet.adoptionStatus}</span>
             </div>
             <div className="pet-info-row">
               <span>My breed</span>
@@ -89,15 +90,7 @@ function Pet() {
               pet.dietery &&
               <div className="pet-info-row">
                 <span>I prefer to eat</span>
-                <ul className="pet-info-list">
-                  {
-                    pet.dietery.map((pet) => {
-                      return (
-                        <li key={crypto.randomUUID()}>{pet}</li>
-                      )
-                    })
-                  }
-                </ul>
+                <span>{pet.dietery}</span>
               </div>
             }
             {

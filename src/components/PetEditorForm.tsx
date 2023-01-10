@@ -10,41 +10,44 @@ import "./PetEditorForm.sass"
 
 interface PetEditorFormProps {
   isEdit?: boolean
+  id?: string
   petName?: string
   type?: string
-  adoptionStatus?: boolean
+  adoptionStatus?: string
   breed?: string
   color?: string
   height?: string
   weight?: string
   hypoallergnic?: boolean
   bio?: string
-  dietery?: Array<String>
+  dietery?: string
   picture?: string
 }
 
-const PetEditorForm: FC<PetEditorFormProps> = ({ isEdit, type, petName, adoptionStatus, picture, breed, height, weight, color, bio, hypoallergnic, dietery }) => {
+const PetEditorForm: FC<PetEditorFormProps> = ({
+  isEdit, id, type, petName, adoptionStatus, picture, breed, height, weight, color, bio, hypoallergnic, dietery
+}) => {
   const { token } = useContext(AuthContext)
   const [petData, setPetData] = useState({
-    type: type ? type : "",
-    name: petName? petName: "",
-    adoptionStatus: "",
+    type: type ? type : "Cat",
+    name: petName ? petName : "",
+    adoptionStatus: adoptionStatus ? adoptionStatus : "Adopted",
     picture: picture ? picture : "",
     height: height ? height : "",
     weight: weight ? weight : "",
-    color: color ? color: "",
-    bio: bio ? bio :"",
-    hypoallergenic: hypoallergnic ? hypoallergnic : false,
-    dietery: "",
+    color: color ? color : "",
+    bio: bio ? bio : "",
+    hypoallergenic: hypoallergnic ? "true" : "false",
+    dietery: dietery? dietery : "",
     breed: breed ? breed : ""
   })
 
-  const onChangeHandler = (e?: { target: { value?: any; name?: any } } | undefined) => {
-    const { name, value } = e!.target
-    setPetData({ ...petData, [name]: value })
+  const onChangeHandler = (e?: { target: { value?: any; name?: any; files?: any } } | undefined) => {
+    const { name, value, files } = e!.target
+    files ? setPetData({ ...petData, "picture": files[0] }) : setPetData({ ...petData, [name]: value })
   }
 
-  const onClickHandler = async (e?: Event) => {
+  const onClickHandlerCreate = async (e?: Event) => {
     e?.preventDefault()
     try {
       const res = await axios.post("http://127.0.0.1:4000/pet", petData, { headers: { authorization: `Bearer ${token}` } })
@@ -57,12 +60,22 @@ const PetEditorForm: FC<PetEditorFormProps> = ({ isEdit, type, petName, adoption
         weight: "",
         color: "",
         bio: "",
-        hypoallergenic: false,
+        hypoallergenic: "",
         dietery: "",
         breed: ""
       })
-      if (res.data) {
-      }
+      if (res.data) {}
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const onClickHandlerEdit= async (e?: Event) => {
+    e?.preventDefault()
+
+    try {
+      const res = await axios.patch(`http://127.0.0.1:4000/pet/${id}`, petData, { headers: { authorization: `Bearer ${token}` } })
+      if (res.data) {}
     } catch (err) {
       console.log(err)
     }
@@ -72,9 +85,9 @@ const PetEditorForm: FC<PetEditorFormProps> = ({ isEdit, type, petName, adoption
     <FormContainer>
       <FromFieldset>
         <FormLabel htmlFor="type" text="Type" />
-        <select className="form-input" id="type" name="type" onChange={onChangeHandler} value={petData.type}>
-          <option value="Cat">Cats</option>
-          <option value="Dog">Dogs</option>
+        <select className="form-input" id="type" name="type" onChange={onChangeHandler} value={petData.type} required>
+          <option value="Cat">Cat</option>
+          <option value="Dog">Dog</option>
           <option value="Other">Other</option>
         </select>
       </FromFieldset>
@@ -90,7 +103,7 @@ const PetEditorForm: FC<PetEditorFormProps> = ({ isEdit, type, petName, adoption
       </FromFieldset>
       <FromFieldset>
         <FormLabel htmlFor="adoptionStatus" text="Adoption Status" />
-        <select className="form-input" id="adoptionStatus" name="adoptionStatus" onChange={onChangeHandler} value={petData.adoptionStatus}>
+        <select className="form-input" id="adoptionStatus" name="adoptionStatus" onChange={onChangeHandler} value={petData.adoptionStatus} required>
           <option value="Adopted">Adopted</option>
           <option value="Fostered">Fostered</option>
           <option value="Available">Available</option>
@@ -132,20 +145,28 @@ const PetEditorForm: FC<PetEditorFormProps> = ({ isEdit, type, petName, adoption
           className="form-input"
           id="bio"
           name="bio"
-          rows={3}
+          rows={2}
           onChange={onChangeHandler}
           value={petData.bio}
         />
       </FromFieldset>
       <FromFieldset>
         <FormLabel htmlFor="dietery" text="Dietery" />
-        <FormInput
-          type="text"
+        <textarea
+          className="form-input"
           name="dietery"
           id="dietery"
+          rows={2}
           value={petData.dietery}
-          onChangeHandler={onChangeHandler}
+          onChange={onChangeHandler}
         />
+      </FromFieldset>
+      <FromFieldset>
+        <FormLabel htmlFor="hypoallergenic" text="Hypoallergenic" />
+        <select className="form-input" id="hypoallergenic" name="hypoallergenic" onChange={onChangeHandler} value={petData.hypoallergenic}>
+          <option value="true">Yes</option>
+          <option value="false">No</option>
+        </select>
       </FromFieldset>
       <FromFieldset>
         <FormLabel htmlFor="breed" text="Breed" />
@@ -158,10 +179,14 @@ const PetEditorForm: FC<PetEditorFormProps> = ({ isEdit, type, petName, adoption
         />
       </FromFieldset>
       <FromFieldset>
+        <FormLabel htmlFor="picture" text="Picture" />
+        <input name="picture" id="picture" className="form-input" type='file' accept='img/*' onChange={onChangeHandler} />
+      </FromFieldset>
+      <FromFieldset>
         <Button
           text={isEdit ? "Edit pet" : "Create pet"}
           className="pet-editor-button"
-          onClickHandler={onClickHandler!}
+          onClickHandler={isEdit ? onClickHandlerEdit! : onClickHandlerCreate}
         />
       </FromFieldset>
     </FormContainer>

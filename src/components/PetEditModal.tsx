@@ -5,16 +5,17 @@ import PetEditorForm from "./PetEditorForm"
 interface SignupModalProps {
   showModal?: React.Dispatch<React.SetStateAction<boolean>>
   currentPet: {
+    id?: string
     petName?: string
     type?: string
-    adoptionStatus?: boolean
+    adoptionStatus?: string
     breed?: string
     color?: string
     height?: string
     weight?: string
     hypoallergnic?: boolean
     bio?: string
-    dietery?: Array<String>
+    dietery?: string
     picture?: string
   }
 }
