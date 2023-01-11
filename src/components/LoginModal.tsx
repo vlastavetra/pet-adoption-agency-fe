@@ -11,7 +11,7 @@ interface LoginModalProps {
 }
 
 const LoginModal: FC<LoginModalProps> = ({ showLoginModal }) => {
-  const { setUser, setToken } = useContext(AuthContext)
+  const { setUser, setToken, setIsAdmin } = useContext(AuthContext)
   const [userData, setUserData] = useState({ email: "", password: "" })
 
   const onChangeHandler = (e?: { target: { value?: any; name?: any } } | undefined) => {
@@ -27,9 +27,11 @@ const LoginModal: FC<LoginModalProps> = ({ showLoginModal }) => {
       if (res.data.token) {
         localStorage.setItem("user", `${res.data.firstname} ${res.data.lastname}`)
         localStorage.setItem("token", res.data.token)
+        res.data.isAdmin && localStorage.setItem("isAdmin", res.data.isAdmin)
         setUser!(`${res.data.firstname} ${res.data.lastname}`)
         setToken!(res.data.token)
         showLoginModal!(false)
+        setIsAdmin!(res.data.isAdmin)
       }
     } catch (err) {
       console.log(err)

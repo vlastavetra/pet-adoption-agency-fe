@@ -12,8 +12,7 @@ interface HeaderProps {
 }
 
 const Header: FC<HeaderProps> = ({ showLoginModal, showSignupModal }) => {
-  const { user, setUser, setToken } = useContext(AuthContext)
-  const isAdmin = false;
+  const { user, isAdmin, setUser, setToken, setIsAdmin } = useContext(AuthContext)
 
   function onLoginClickHandler() {
     showLoginModal!(true)
@@ -26,8 +25,10 @@ const Header: FC<HeaderProps> = ({ showLoginModal, showSignupModal }) => {
   function onLogoutClickHandler() {
     localStorage.removeItem("user")
     localStorage.removeItem("token")
+    localStorage.removeItem("isAdmin")
     setUser!(false)
     setToken!("")
+    setIsAdmin!("")
   }
 
   return (

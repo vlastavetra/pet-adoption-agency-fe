@@ -3,27 +3,30 @@ import { useParams } from "react-router-dom"
 import { AuthContext } from "../context/AuthContext"
 import axios from "axios"
 import Button from "../elements/Button"
+import PetEditModal from "../components/PetEditModal"
 import "../App.sass"
 import "./Pet.sass"
 
 function Pet() {
   const [pet, setPet] = useState<{
+    id?: string
     petName?: string
     type?: string
-    adoptionStatus?: boolean
+    adoptionStatus?: string
     breed?: string
     color?: string
     height?: string
     weight?: string
     hypoallergnic?: boolean
     bio?: string
-    dietery?: Array<String>
+    dietery?: string
     picture?: string
     adoptedByUser?: string
     savedByUsers?: Array<String>
   }>({}) || null
+  const [modal, showModal] = useState(false)
 
-  const { token } = useContext(AuthContext)
+  const { token, isAdmin } = useContext(AuthContext)
 
   const { id: petId } = useParams()
 
@@ -49,6 +52,10 @@ function Pet() {
     updatePetStatus(action)
   }
 
+  const onClickEdit = () => {
+    showModal(true)
+  }
+
   useEffect(() => {
     getPet()
   }, [])
@@ -61,7 +68,7 @@ function Pet() {
           <div className="pet-info-table">
             <div className="pet-info-row">
               <span>My adoption status</span>
-              <span>{pet.adoptionStatus ? "Adopted" : "Fostered"}</span>
+              <span>{pet.adoptionStatus}</span>
             </div>
             <div className="pet-info-row">
               <span>My breed</span>
@@ -79,21 +86,15 @@ function Pet() {
               <span>My weight</span>
               <span>{pet.weight}</span>
             </div>
-            {pet.dietery &&
+            {
+              pet.dietery &&
               <div className="pet-info-row">
                 <span>I prefer to eat</span>
-                <ul className="pet-info-list">
-                  {
-                    pet.dietery.map((pet) => {
-                      return (
-                        <li key={crypto.randomUUID()}>{pet}</li>
-                      )
-                    })
-                  }
-                </ul>
+                <span>{pet.dietery}</span>
               </div>
             }
-            {pet.hypoallergnic &&
+            {
+              pet.hypoallergnic &&
               <div className="pet-info-row">
                 <span>Also i'm hypoallergnic!</span>
               </div>
@@ -107,31 +108,41 @@ function Pet() {
             </div>
           }
           <div className="pet-info-button-container">
-            {pet.adoptedByUser ?
-              <Button
-                text="Return"
-                color="gray"
-                onClickHandler={() => onClickHandler!("return")}
-              />
-              :
-              !pet.adoptionStatus ?
+            {
+              pet.adoptedByUser ?
                 <Button
-                  text="Adopt"
-                  color="blue"
-                  onClickHandler={() => onClickHandler!("adopt")}
-                /> :
-                null
+                  text="Return"
+                  color="gray"
+                  onClickHandler={() => onClickHandler!("return")}
+                />
+                :
+                !pet.adoptionStatus ?
+                  <Button
+                    text="Adopt"
+                    color="blue"
+                    onClickHandler={() => onClickHandler!("adopt")}
+                  /> :
+                  null
             }
-            {pet.savedByUsers?.length ?
+            {
+              pet.savedByUsers?.length ?
+                <Button
+                  text="Unsave"
+                  color="gray"
+                  onClickHandler={() => onClickHandler!("unsave")}
+                /> :
+                <Button
+                  text="Save"
+                  color="blue"
+                  onClickHandler={() => onClickHandler!("save")}
+                />
+            }
+            {
+              isAdmin &&
               <Button
-                text="Unsave"
-                color="gray"
-                onClickHandler={() => onClickHandler!("unsave")}
-              /> :
-              <Button
-                text="Save"
-                color="blue"
-                onClickHandler={() => onClickHandler!("save")}
+                text="Edit"
+                color="yellow"
+                onClickHandler={() => onClickEdit!()}
               />
             }
           </div>
@@ -140,6 +151,9 @@ function Pet() {
           <img className="pet-info-img" src={pet.picture} alt={`${pet.type} ${pet.breed} ${pet.petName}`} />
         </div>
       </section>
+      {
+        modal && <PetEditModal showModal={showModal} currentPet={pet}/>
+      }
     </main>
   );
 }
