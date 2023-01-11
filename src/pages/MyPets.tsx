@@ -26,11 +26,11 @@ function MyPets() {
       <h1 className="title-h1">My pets</h1>
       <section className="section-container">
         <h2 className="title-h2">Adopted</h2>
-        <PetsList pets={pets.filter(obj => obj.list === "adopted")} />
+        <PetsList pets={pets && pets.filter(obj => obj.list === "adopted")} />
       </section>
       <section className="section-container">
         <h2 className="title-h2">Saved</h2>
-        <PetsList pets={pets.filter(obj => obj.list === "saved")} />
+        <PetsList pets={pets && pets.filter(obj => obj.list === "saved")} />
       </section>
     </main>
   );

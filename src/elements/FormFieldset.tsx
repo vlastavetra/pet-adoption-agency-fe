@@ -1,11 +1,11 @@
 import { FC } from "react"
-import "./FromFieldset.sass"
+import "./FormFieldset.sass"
 
-interface FromFieldsetProps {
+interface FormFieldsetProps {
   children?: JSX.Element|JSX.Element[]
 }
 
-const FromFieldset: FC<FromFieldsetProps> = ({ children }) => {
+const FormFieldset: FC<FormFieldsetProps> = ({ children }) => {
   return (
     <fieldset className="form-fieldset">
       {children}
@@ -13,4 +13,4 @@ const FromFieldset: FC<FromFieldsetProps> = ({ children }) => {
   );
 }
 
-export default FromFieldset;
+export default FormFieldset;

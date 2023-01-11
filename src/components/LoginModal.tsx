@@ -27,6 +27,7 @@ const LoginModal: FC<LoginModalProps> = ({ showLoginModal }) => {
       if (res.data.token) {
         localStorage.setItem("user", `${res.data.firstname} ${res.data.lastname}`)
         localStorage.setItem("token", res.data.token)
+        localStorage.setItem("userId", res.data.id)
         res.data.isAdmin && localStorage.setItem("isAdmin", res.data.isAdmin)
         setUser!(`${res.data.firstname} ${res.data.lastname}`)
         setToken!(res.data.token)
