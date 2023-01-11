@@ -1,5 +1,4 @@
-import { FC } from "react"
-import { useState } from "react"
+import { FC, useState } from "react"
 import axios from "axios"
 import "../App.sass"
 import Button from "../elements/Button"

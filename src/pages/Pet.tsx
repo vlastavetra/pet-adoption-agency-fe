@@ -116,7 +116,7 @@ function Pet() {
                   onClickHandler={() => onClickHandler!("return")}
                 />
                 :
-                !pet.adoptionStatus ?
+                pet.adoptionStatus !== "Adopted" ?
                   <Button
                     text="Adopt"
                     color="blue"
@@ -125,7 +125,7 @@ function Pet() {
                   null
             }
             {
-              pet.savedByUsers?.length ?
+              pet.savedByUsers ?
                 <Button
                   text="Unsave"
                   color="gray"
