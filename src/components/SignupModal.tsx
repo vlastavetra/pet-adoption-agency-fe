@@ -18,7 +18,7 @@ const SignupModal: FC<SignupModalProps> = ({ showSignupModal }) => {
   const onClickHandler = async (e?: Event) => {
     e?.preventDefault()
     try {
-      const res = await axios.post("http://127.0.0.1:4000/signup", userData)
+      const res = await axios.post("http://127.0.0.1:4000/user/signup", userData)
 
       if (res.data) {
         showSignupModal!(false)

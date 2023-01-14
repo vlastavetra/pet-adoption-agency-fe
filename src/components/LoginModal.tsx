@@ -22,7 +22,7 @@ const LoginModal: FC<LoginModalProps> = ({ showLoginModal }) => {
   const onClickHandler = async (e?: Event) => {
     e?.preventDefault()
     try {
-      const res = await axios.post("http://127.0.0.1:4000/login", userData)
+      const res = await axios.post("http://127.0.0.1:4000/user/login", userData)
 
       if (res.data.token) {
         localStorage.setItem("user", `${res.data.firstname} ${res.data.lastname}`)

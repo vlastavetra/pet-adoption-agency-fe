@@ -10,7 +10,7 @@ import "./Pet.sass"
 function Pet() {
   const [pet, setPet] = useState<{
     id?: string
-    petName?: string
+    name?: string
     type?: string
     adoptionStatus?: string
     breed?: string
@@ -21,8 +21,8 @@ function Pet() {
     bio?: string
     dietery?: string
     picture?: string
-    adoptedByUser?: string
-    savedByUsers?: Array<String>
+    isOwnedPets?: boolean
+    isSavedPet?: boolean
   }>({}) || null
   const [modal, showModal] = useState(false)
 
@@ -56,13 +56,17 @@ function Pet() {
     showModal(true)
   }
 
+  if (pet.isOwnedPets && pet.adoptionStatus === "Fostered") {
+    updatePetStatus("return")
+  }
+
   useEffect(() => {
     getPet()
-  }, [])
+  }, [pet, modal])
 
   return (
     <main className="main-container">
-      <h1 className="title-h1 pet-info-title">Hi i'm {pet.petName} the {pet.type}</h1>
+      <h1 className="title-h1 pet-info-title">Hi i'm {pet.name} the {pet.type}</h1>
       <section className="section-container pet-info-container">
         <div className="pet-info-container-left">
           <div className="pet-info-table">
@@ -109,7 +113,7 @@ function Pet() {
           }
           <div className="pet-info-button-container">
             {
-              pet.adoptedByUser ?
+              pet.isOwnedPets ?
                 <Button
                   text="Return"
                   color="gray"
@@ -125,7 +129,7 @@ function Pet() {
                   null
             }
             {
-              pet.savedByUsers ?
+              pet.isSavedPet ?
                 <Button
                   text="Unsave"
                   color="gray"
@@ -148,11 +152,11 @@ function Pet() {
           </div>
         </div>
         <div className="pet-info-container-right">
-          <img className="pet-info-img" src={pet.picture} alt={`${pet.type} ${pet.breed} ${pet.petName}`} />
+          <img className="pet-info-img" src={pet.picture} alt={`${pet.type} ${pet.breed} ${pet.name}`} />
         </div>
       </section>
       {
-        modal && <PetEditModal showModal={showModal} currentPet={pet}/>
+        modal && <PetEditModal showModal={showModal} currentPet={pet} />
       }
     </main>
   );

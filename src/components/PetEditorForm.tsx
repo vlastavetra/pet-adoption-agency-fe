@@ -10,8 +10,8 @@ import "./PetEditorForm.sass"
 
 interface PetEditorFormProps {
   isEdit?: boolean
-  id?: string
-  petName?: string
+  _id?: string
+  name?: string
   type?: string
   adoptionStatus?: string
   breed?: string
@@ -22,15 +22,16 @@ interface PetEditorFormProps {
   bio?: string
   dietery?: string
   picture?: string
+  showModal?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const PetEditorForm: FC<PetEditorFormProps> = ({
-  isEdit, id, type, petName, adoptionStatus, picture, breed, height, weight, color, bio, hypoallergnic, dietery
+  isEdit, _id, type, name, adoptionStatus, picture, breed, height, weight, color, bio, hypoallergnic, dietery, showModal
 }) => {
   const { token } = useContext(AuthContext)
   const [petData, setPetData] = useState({
     type: type ? type : "Cat",
-    name: petName ? petName : "",
+    name: name ? name : "",
     adoptionStatus: adoptionStatus ? adoptionStatus : "Adopted",
     picture: picture ? picture : "",
     height: height ? height : "",
@@ -74,8 +75,8 @@ const PetEditorForm: FC<PetEditorFormProps> = ({
     e?.preventDefault()
 
     try {
-      const res = await axios.patch(`http://127.0.0.1:4000/pet/${id}`, petData, { headers: { authorization: `Bearer ${token}` } })
-      if (res.data) {}
+      const res = await axios.patch(`http://127.0.0.1:4000/pet/${_id}`, petData, { headers: { authorization: `Bearer ${token}` } })
+      if (res.data === "Updated") {showModal!(false)}
     } catch (err) {
       console.log(err)
     }

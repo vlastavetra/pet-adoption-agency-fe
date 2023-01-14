@@ -11,7 +11,7 @@ const PetsList: FC<PetsListProps> = ({pets}) => {
     <ul className="pet-cards-list">
       {pets && pets.map((pet) => {
         return (
-          <PetsCard key={crypto.randomUUID()} {...pet}/>
+          <PetsCard key={pet._id} {...pet}/>
         )
       })}
     </ul>

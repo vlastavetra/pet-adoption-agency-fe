@@ -7,13 +7,13 @@ import Button from "../elements/Button"
 
 function Search() {
   const [pets, setPets] = useState<any[]>([])
-  const [searchData, setSearchData] = useState({ type: "", status: "", height: "", weight: "", petName: "" })
+  const [searchData, setSearchData] = useState({ type: "", status: "", height: "", weight: "", name: "" })
   const [advanced, showAdvanced] = useState(false)
 
   const getPets = async () => {
     try {
       const res = await axios.get(`
-        http://127.0.0.1:4000/pet?search=type-${searchData.type}/status-${searchData.status}/height-${searchData.height}/weight-${searchData.weight}/petName-${searchData.petName}
+        http://127.0.0.1:4000/pet?search=type-${searchData.type}/status-${searchData.status}/height-${searchData.height}/weight-${searchData.weight}/name-${searchData.name}
       `)
       setPets(res.data)
     } catch (err) {
@@ -95,7 +95,7 @@ function Search() {
                   name="petName"
                   type="text"
                   onChange={onChangeHandler}
-                  value={searchData.petName}
+                  value={searchData.name}
                 >
                 </input>
               </fieldset>
