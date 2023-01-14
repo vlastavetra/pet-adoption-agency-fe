@@ -9,6 +9,8 @@ import Pet from "./pages/Pet"
 import Search from "./pages/Search"
 import AddPet from "./pages/AddPet"
 import Dashboard from "./pages/Dashboard"
+import PrivateRoute from "./pages/PrivateRoute"
+import PrivateAdminRoute from "./pages/PrivateAdminRoute"
 import Header from "./components/Header"
 import LoginModal from "./components/LoginModal"
 import SignupModal from "./components/SignupModal"
@@ -28,12 +30,12 @@ function App() {
       />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/my-pets" element={<MyPets />} />
-        <Route path="/pet/:id" element={<Pet />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/add-pet" element={<AddPet />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/profile" element={<PrivateRoute currentUser={user}><Profile /></PrivateRoute>} />
+        <Route path="/my-pets" element={<PrivateRoute currentUser={user}><MyPets /></PrivateRoute>} />
+        <Route path="/pet/:id" element={<PrivateRoute currentUser={user}><Pet /></PrivateRoute>} />
+        <Route path="/add-pet" element={<PrivateAdminRoute isAdmin={isAdmin}><AddPet /></PrivateAdminRoute>} />
+        <Route path="/dashboard" element={<PrivateAdminRoute isAdmin={isAdmin}><Dashboard /></PrivateAdminRoute>} />
       </Routes>
       {loginModal && <LoginModal showLoginModal={showLoginModal} />}
       {signupModal && <SignupModal showSignupModal={showSignupModal} />}
