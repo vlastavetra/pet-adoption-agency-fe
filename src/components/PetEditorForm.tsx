@@ -51,7 +51,7 @@ const PetEditorForm: FC<PetEditorFormProps> = ({
   const onClickHandlerCreate = async (e?: Event) => {
     e?.preventDefault()
     try {
-      const res = await axios.post("http://127.0.0.1:4000/pet", petData, { headers: { authorization: `Bearer ${token}` } })
+      const res = await axios.post("http://127.0.0.1:4000/pet", petData, { headers: { authorization: `Bearer ${token}`, enctype: "multipart/form-data", 'Content-Type': 'multipart/form-data' } })
       setPetData({
         type: "",
         name: "",
@@ -73,9 +73,9 @@ const PetEditorForm: FC<PetEditorFormProps> = ({
 
   const onClickHandlerEdit= async (e?: Event) => {
     e?.preventDefault()
-
+    
     try {
-      const res = await axios.patch(`http://127.0.0.1:4000/pet/${_id}`, petData, { headers: { authorization: `Bearer ${token}` } })
+      const res = await axios.patch(`http://127.0.0.1:4000/pet/${_id}`, petData, { headers: { authorization: `Bearer ${token}`, enctype: "multipart/form-data", 'Content-Type': 'multipart/form-data' } })
       if (res.data === "Updated") {showModal!(false)}
     } catch (err) {
       console.log(err)

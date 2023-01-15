@@ -7,13 +7,13 @@ import Button from "../elements/Button"
 
 function Search() {
   const [pets, setPets] = useState<any[]>([])
-  const [searchData, setSearchData] = useState({ type: "", status: "", height: "", weight: "", name: "" })
+  const [searchData, setSearchData] = useState({ type: "", adoptionStatus: "", height: "", weight: "", name: "" })
   const [advanced, showAdvanced] = useState(false)
 
   const getPets = async () => {
     try {
       const res = await axios.get(`
-        http://127.0.0.1:4000/pet?search=type-${searchData.type}/status-${searchData.status}/height-${searchData.height}/weight-${searchData.weight}/name-${searchData.name}
+        http://127.0.0.1:4000/pet?type=${searchData.type}&adoptionStatus=${searchData.adoptionStatus}&height=${searchData.height}&weight=${searchData.weight}&name=${searchData.name}
       `)
       setPets(res.data)
     } catch (err) {
@@ -55,8 +55,8 @@ function Search() {
           {advanced &&
             <div className="search-advanced-container">
               <fieldset className="form-fieldset">
-                <label htmlFor="status" className="form-label">Adoption Status</label>
-                <select className="form-input" id="status" name="status" onChange={onChangeHandler} value={searchData.status}>
+                <label htmlFor="adoptionStatus" className="form-label">Adoption Status</label>
+                <select className="form-input" id="adoptionStatus" name="adoptionStatus" onChange={onChangeHandler} value={searchData.adoptionStatus}>
                   <option value="">All</option>
                   <option value="Adopted">Adopted</option>
                   <option value="Fostered">Fostered</option>
