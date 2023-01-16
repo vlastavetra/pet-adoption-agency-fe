@@ -4,6 +4,7 @@ import { AuthContext } from "../context/AuthContext"
 import axios from "axios"
 import Button from "../elements/Button"
 import PetEditModal from "../components/PetEditModal"
+import Loader from "../components/Loader"
 import "../App.sass"
 import "./Pet.sass"
 
@@ -25,6 +26,7 @@ function Pet() {
     isSavedPet?: boolean
   }>({}) || null
   const [modal, showModal] = useState(false)
+  const [loader, showLoader] = useState(false)
 
   const { token, isAdmin } = useContext(AuthContext)
 
@@ -32,8 +34,10 @@ function Pet() {
 
   const getPet = async () => {
     try {
+      showLoader(true)
       const res = await axios.get(`http://127.0.0.1:4000/pet/${petId}`, { headers: { authorization: `Bearer ${token}` } })
       setPet(res.data)
+      showLoader(false)
     } catch (err) {
       console.log(err);
     }
@@ -62,99 +66,104 @@ function Pet() {
 
   useEffect(() => {
     getPet()
-  }, [pet, modal])
+  }, [modal, pet.adoptionStatus, pet.isSavedPet])
 
   return (
     <main className="main-container">
-      <h1 className="title-h1 pet-info-title">Hi i'm {pet.name} the {pet.type}</h1>
-      <section className="section-container pet-info-container">
-        <div className="pet-info-container-left">
-          <div className="pet-info-table">
-            <div className="pet-info-row">
-              <span>My adoption status</span>
-              <span>{pet.adoptionStatus}</span>
-            </div>
-            <div className="pet-info-row">
-              <span>My breed</span>
-              <span>{pet.breed}</span>
-            </div>
-            <div className="pet-info-row">
-              <span>My color</span>
-              <span>{pet.color}</span>
-            </div>
-            <div className="pet-info-row">
-              <span>My height</span>
-              <span>{pet.height}</span>
-            </div>
-            <div className="pet-info-row">
-              <span>My weight</span>
-              <span>{pet.weight}</span>
-            </div>
-            {
-              pet.dietery &&
-              <div className="pet-info-row">
-                <span>I prefer to eat</span>
-                <span>{pet.dietery}</span>
+      {loader && <Loader />}
+      {!loader &&
+        <>
+          <h1 className="title-h1 pet-info-title">Hi i'm {pet.name} the {pet.type}</h1>
+          <section className="section-container pet-info-container">
+            <div className="pet-info-container-left">
+              <div className="pet-info-table">
+                <div className="pet-info-row">
+                  <span>My adoption status</span>
+                  <span>{pet.adoptionStatus}</span>
+                </div>
+                <div className="pet-info-row">
+                  <span>My breed</span>
+                  <span>{pet.breed}</span>
+                </div>
+                <div className="pet-info-row">
+                  <span>My color</span>
+                  <span>{pet.color}</span>
+                </div>
+                <div className="pet-info-row">
+                  <span>My height</span>
+                  <span>{pet.height}</span>
+                </div>
+                <div className="pet-info-row">
+                  <span>My weight</span>
+                  <span>{pet.weight}</span>
+                </div>
+                {
+                  pet.dietery &&
+                  <div className="pet-info-row">
+                    <span>I prefer to eat</span>
+                    <span>{pet.dietery}</span>
+                  </div>
+                }
+                {
+                  pet.hypoallergnic &&
+                  <div className="pet-info-row">
+                    <span>Also i'm hypoallergnic!</span>
+                  </div>
+                }
               </div>
-            }
-            {
-              pet.hypoallergnic &&
-              <div className="pet-info-row">
-                <span>Also i'm hypoallergnic!</span>
-              </div>
-            }
-          </div>
-          {
-            pet.bio &&
-            <div className="pet-info-bio">
-              <span className="pet-info-bio-title">My bio</span>
-              <p>{pet.bio}</p>
-            </div>
-          }
-          <div className="pet-info-button-container">
-            {
-              pet.isOwnedPets ?
-                <Button
-                  text="Return"
-                  color="gray"
-                  onClickHandler={() => onClickHandler!("return")}
-                />
-                :
-                pet.adoptionStatus !== "Adopted" ?
+              {
+                pet.bio &&
+                <div className="pet-info-bio">
+                  <span className="pet-info-bio-title">My bio</span>
+                  <p>{pet.bio}</p>
+                </div>
+              }
+              <div className="pet-info-button-container">
+                {
+                  pet.isOwnedPets ?
+                    <Button
+                      text="Return"
+                      color="gray"
+                      onClickHandler={() => onClickHandler!("return")}
+                    />
+                    :
+                    pet.adoptionStatus !== "Adopted" ?
+                      <Button
+                        text="Adopt"
+                        color="blue"
+                        onClickHandler={() => onClickHandler!("adopt")}
+                      /> :
+                      null
+                }
+                {
+                  pet.isSavedPet ?
+                    <Button
+                      text="Unsave"
+                      color="gray"
+                      onClickHandler={() => onClickHandler!("unsave")}
+                    /> :
+                    <Button
+                      text="Save"
+                      color="blue"
+                      onClickHandler={() => onClickHandler!("save")}
+                    />
+                }
+                {
+                  isAdmin &&
                   <Button
-                    text="Adopt"
-                    color="blue"
-                    onClickHandler={() => onClickHandler!("adopt")}
-                  /> :
-                  null
-            }
-            {
-              pet.isSavedPet ?
-                <Button
-                  text="Unsave"
-                  color="gray"
-                  onClickHandler={() => onClickHandler!("unsave")}
-                /> :
-                <Button
-                  text="Save"
-                  color="blue"
-                  onClickHandler={() => onClickHandler!("save")}
-                />
-            }
-            {
-              isAdmin &&
-              <Button
-                text="Edit"
-                color="yellow"
-                onClickHandler={() => onClickEdit!()}
-              />
-            }
-          </div>
-        </div>
-        <div className="pet-info-container-right">
-          <img className="pet-info-img" src={pet.picture} alt={`${pet.type} ${pet.breed} ${pet.name}`} />
-        </div>
-      </section>
+                    text="Edit"
+                    color="yellow"
+                    onClickHandler={() => onClickEdit!()}
+                  />
+                }
+              </div>
+            </div>
+            <div className="pet-info-container-right">
+              <img className="pet-info-img" src={pet.picture} alt={`${pet.type} ${pet.breed} ${pet.name}`} />
+            </div>
+          </section>
+        </>
+      }
       {
         modal && <PetEditModal showModal={showModal} currentPet={pet} />
       }

@@ -4,18 +4,22 @@ import "../App.sass"
 import "./Search.sass"
 import PetsList from "../components/PetsList"
 import Button from "../elements/Button"
+import Loader from "../components/Loader"
 
 function Search() {
   const [pets, setPets] = useState<any[]>([])
+  const [loader, showLoader] = useState(false)
   const [searchData, setSearchData] = useState({ type: "", adoptionStatus: "", height: "", weight: "", name: "" })
   const [advanced, showAdvanced] = useState(false)
 
   const getPets = async () => {
+    showLoader(true)
     try {
       const res = await axios.get(`
         http://127.0.0.1:4000/pet?type=${searchData.type}&adoptionStatus=${searchData.adoptionStatus}&height=${searchData.height}&weight=${searchData.weight}&name=${searchData.name}
       `)
       setPets(res.data)
+      showLoader(false)
     } catch (err) {
       console.log(err)
     }
@@ -111,9 +115,12 @@ function Search() {
           </fieldset>
         </form>
       </section>
-      <section className="section-container">
-        <PetsList pets={pets} />
-      </section>
+      {loader && <Loader />}
+      {!loader &&
+        <section className="section-container">
+          <PetsList pets={pets} />
+        </section>
+      }
     </main>
   );
 }

@@ -9,6 +9,7 @@ import Pet from "./pages/Pet"
 import Search from "./pages/Search"
 import AddPet from "./pages/AddPet"
 import Dashboard from "./pages/Dashboard"
+import User from "./pages/User"
 import PrivateRoute from "./pages/PrivateRoute"
 import PrivateAdminRoute from "./pages/PrivateAdminRoute"
 import Header from "./components/Header"
@@ -36,6 +37,7 @@ function App() {
         <Route path="/pet/:id" element={<PrivateRoute currentUser={user}><Pet /></PrivateRoute>} />
         <Route path="/add-pet" element={<PrivateAdminRoute isAdmin={isAdmin}><AddPet /></PrivateAdminRoute>} />
         <Route path="/dashboard" element={<PrivateAdminRoute isAdmin={isAdmin}><Dashboard /></PrivateAdminRoute>} />
+        <Route path="/user/:id" element={<PrivateAdminRoute isAdmin={isAdmin}><User /></PrivateAdminRoute>} />
       </Routes>
       {loginModal && <LoginModal showLoginModal={showLoginModal} />}
       {signupModal && <SignupModal showSignupModal={showSignupModal} />}
