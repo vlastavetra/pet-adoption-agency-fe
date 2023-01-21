@@ -7,17 +7,20 @@ interface FormInputProps {
   name?: string
   id?: string
   value?: string
+  required?: boolean
+  className?: string
 }
 
-const FormInput: FC<FormInputProps> = ({ onChangeHandler, type, name, id, value }) => {
+const FormInput: FC<FormInputProps> = ({ onChangeHandler, type, name, id, value, required, className }) => {
   return (
     <input
-      className="form-input"
       id={id}
       name={name}
       type={type}
       onChange={onChangeHandler}
       value={value}
+      required={required}
+      className={`form-input ${className}`}
     />
   );
 }

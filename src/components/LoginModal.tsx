@@ -13,29 +13,41 @@ interface LoginModalProps {
 const LoginModal: FC<LoginModalProps> = ({ showLoginModal }) => {
   const { setUser, setToken, setIsAdmin } = useContext(AuthContext)
   const [userData, setUserData] = useState({ email: "", password: "" })
+  const [valid, setValid] = useState(true)
 
   const onChangeHandler = (e?: { target: { value?: any; name?: any } } | undefined) => {
     const { name, value } = e!.target
     setUserData({ ...userData, [name]: value })
   }
 
+  const checkValid = () => {
+    if (!userData.email || !userData.password) {
+      return setValid(false)
+    }
+    setValid(true)
+    return
+  };
+
   const onClickHandler = async (e?: Event) => {
     e?.preventDefault()
-    try {
-      const res = await axios.post("http://127.0.0.1:4000/user/login", userData)
-
-      if (res.data.token) {
-        localStorage.setItem("user", `${res.data.firstname} ${res.data.lastname}`)
-        localStorage.setItem("token", res.data.token)
-        localStorage.setItem("userId", res.data.id)
-        res.data.isAdmin && localStorage.setItem("isAdmin", res.data.isAdmin)
-        setUser!(`${res.data.firstname} ${res.data.lastname}`)
-        setToken!(res.data.token)
-        showLoginModal!(false)
-        setIsAdmin!(res.data.isAdmin)
+    checkValid()
+    if(valid) {
+      try {
+        const res = await axios.post("http://127.0.0.1:4000/user/login", userData)
+  
+        if (res.data.token) {
+          localStorage.setItem("user", `${res.data.firstname} ${res.data.lastname}`)
+          localStorage.setItem("token", res.data.token)
+          localStorage.setItem("userId", res.data.id)
+          res.data.isAdmin && localStorage.setItem("isAdmin", res.data.isAdmin)
+          setUser!(`${res.data.firstname} ${res.data.lastname}`)
+          setToken!(res.data.token)
+          showLoginModal!(false)
+          setIsAdmin!(res.data.isAdmin)
+        }
+      } catch (err) {
+        console.log(err)
       }
-    } catch (err) {
-      console.log(err)
     }
   }
 
@@ -47,26 +59,28 @@ const LoginModal: FC<LoginModalProps> = ({ showLoginModal }) => {
         </svg>
         <form action="" className="form">
           <fieldset className="form-fieldset">
-            <label htmlFor="email" className="form-label">Email</label>
+            <label htmlFor="email" className="form-label">Email *</label>
             <input
-              className="form-input"
               id="email"
               name="email"
               type="email"
               onChange={onChangeHandler}
               value={userData.email}
+              required
+              className={`form-input ${!valid && !userData.email && "form-input-error"}`}
             >
             </input>
           </fieldset>
           <fieldset className="form-fieldset">
-            <label htmlFor="password" className="form-label">Password</label>
+            <label htmlFor="password" className="form-label">Password *</label>
             <input
-              className="form-input"
               id="password"
               name="password"
               type="password"
               onChange={onChangeHandler}
               value={userData.password}
+              required
+              className={`form-input ${!valid && !userData.password && "form-input-error"}`}
             >
             </input>
           </fieldset>
@@ -74,6 +88,7 @@ const LoginModal: FC<LoginModalProps> = ({ showLoginModal }) => {
             <Button
               text="Login"
               onClickHandler={onClickHandler!}
+              //className={`${!valid && "disabled"}`}
             />
             <Button
               text="Cancel"
@@ -82,6 +97,11 @@ const LoginModal: FC<LoginModalProps> = ({ showLoginModal }) => {
             />
           </div>
         </form>
+        {!valid &&
+        <div className="form-error-message-container">
+          <span className="form-error-message-text">Required provide all values</span>
+        </div>
+        }
       </div>
     </div>
   );

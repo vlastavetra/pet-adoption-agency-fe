@@ -9,14 +9,9 @@ interface SignupModalProps {
 
 const SignupModal: FC<SignupModalProps> = ({ showSignupModal }) => {
   const [userData, setUserData] = useState({ email: "", password: "", repassword: "", firstname: "", lastname: "", phone: "" })
+  const [valid, setValid] = useState(true)
 
-  const onChangeHandler = (e?: { target: { value?: any; name?: any } } | undefined) => {
-    const { name, value } = e!.target
-    setUserData({ ...userData, [name]: value })
-  }
-
-  const onClickHandler = async (e?: Event) => {
-    e?.preventDefault()
+  const setData = async () => {
     try {
       const res = await axios.post("http://127.0.0.1:4000/user/signup", userData)
 
@@ -25,10 +20,28 @@ const SignupModal: FC<SignupModalProps> = ({ showSignupModal }) => {
       }
     } catch (err) {
       console.log(err);
+     
     }
+  }
+
+  const checkValid = () => {
+    if (!userData.email || !userData.password) {
+      return setValid(false)
+    }
+    setValid(true)
+    return
   };
 
-  // add errors and succsess outputs
+  const onChangeHandler = (e?: { target: { value?: any; name?: any } } | undefined) => {
+    const { name, value } = e!.target
+    setUserData({ ...userData, [name]: value })
+  }
+
+  const onClickHandler = (e?: Event) => {
+    e?.preventDefault()
+    checkValid()
+    if (valid) {setData()}
+  };
 
   return (
     <div className="modal-container" onClick={() => { showSignupModal!(false) }}>
@@ -38,74 +51,80 @@ const SignupModal: FC<SignupModalProps> = ({ showSignupModal }) => {
         </svg>
         <form action="POST" className="form">
           <fieldset className="form-fieldset">
-            <label htmlFor="email" className="form-label">Email</label>
+            <label htmlFor="email" className="form-label">Email *</label>
             <input
-              className="form-input"
               id="email"
               name="email"
               type="email"
               onChange={onChangeHandler}
               value={userData.email}
+              required
+              className={`form-input ${!valid && !userData.email && "form-input-error"}`}
             >
             </input>
           </fieldset>
           <fieldset className="form-fieldset">
-            <label htmlFor="password" className="form-label">Password</label>
+            <label htmlFor="password" className="form-label">Password *</label>
             <input
-              className="form-input"
               id="password"
               name="password"
               type="password"
               onChange={onChangeHandler}
               value={userData.password}
+              required
+              className={`form-input ${!valid && !userData.password && "form-input-error"}`}
             >
             </input>
           </fieldset>
           <fieldset className="form-fieldset">
-            <label htmlFor="repassword" className="form-label">Password check</label>
+            <label htmlFor="repassword" className="form-label">Password check *</label>
             <input
-              className="form-input"
               id="repassword"
               name="repassword"
               type="password"
               onChange={onChangeHandler}
               value={userData.repassword}
+              required
+              className={`form-input ${!valid && !userData.repassword && "form-input-error"}`}
             >
             </input>
           </fieldset>
           <fieldset className="form-fieldset">
-            <label htmlFor="firstname" className="form-label">First name</label>
+            <label htmlFor="firstname" className="form-label">First name *</label>
             <input
-              className="form-input"
               id="firstname"
               name="firstname"
               type="text"
               onChange={onChangeHandler}
               value={userData.firstname}
+              required
+              className={`form-input ${!valid && !userData.firstname && "form-input-error"}`}
             >
             </input>
           </fieldset>
           <fieldset className="form-fieldset">
-            <label htmlFor="lastname" className="form-label">Last name</label>
+            <label htmlFor="lastname" className="form-label">Last name *</label>
             <input
-              className="form-input"
               id="lastname"
               name="lastname"
               type="text"
               onChange={onChangeHandler}
               value={userData.lastname}
+              required
+              className={`form-input ${!valid && !userData.lastname && "form-input-error"}`}
             >
             </input>
           </fieldset>
           <fieldset className="form-fieldset">
-            <label htmlFor="phone" className="form-label">Phone number</label>
+            <label htmlFor="phone" className="form-label">Phone number *</label>
             <input
-              className="form-input"
               id="phone"
               name="phone"
               type="tel"
               onChange={onChangeHandler}
               value={userData.phone}
+              required
+              className={`form-input ${!valid && !userData.phone && "form-input-error"}`}
             >
             </input>
           </fieldset>
@@ -113,6 +132,7 @@ const SignupModal: FC<SignupModalProps> = ({ showSignupModal }) => {
             <Button
               text="Sign Up"
               onClickHandler={onClickHandler!}
+              //className={`${!valid && "disabled"}`}
             />
             <Button
               text="Cancel"
@@ -121,6 +141,11 @@ const SignupModal: FC<SignupModalProps> = ({ showSignupModal }) => {
             />
           </div>
         </form>
+        {!valid &&
+        <div className="form-error-message-container">
+          <span className="form-error-message-text">Required provide all values</span>
+        </div>
+        }
       </div>
     </div>
   );

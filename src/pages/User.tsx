@@ -40,6 +40,7 @@ function User() {
   useEffect(() => {
     getUserData()
   }, [])
+
   return (
     <main className="main-container">
       {loader && <Loader />}
