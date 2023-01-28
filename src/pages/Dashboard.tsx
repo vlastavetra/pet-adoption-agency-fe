@@ -28,7 +28,7 @@ function Dashboard() {
 
   const getUsers = async () => {
     try {
-      const res = await axios.get("http://127.0.0.1:4000/user", { headers: { authorization: `Bearer ${token}` } })
+      const res = await axios.get(`${process.env.REACT_APP_SERVER_URL}user`, { headers: { authorization: `Bearer ${token}` } })
       setUsers(res.data)
       showLoader(false)
     } catch (err) {
@@ -38,7 +38,7 @@ function Dashboard() {
 
   const getPets = async () => {
     try {
-      const res = await axios.get("http://127.0.0.1:4000/pet", { headers: { authorization: `Bearer ${token}` } })
+      const res = await axios.get(`${process.env.REACT_APP_SERVER_URL}pet`, { headers: { authorization: `Bearer ${token}` } })
       setPets(res.data)
       showLoader(false)
     } catch (err) {

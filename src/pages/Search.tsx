@@ -16,7 +16,7 @@ function Search() {
     showLoader(true)
     try {
       const res = await axios.get(`
-        http://127.0.0.1:4000/pet?type=${searchData.type}&adoptionStatus=${searchData.adoptionStatus}&height=${searchData.height}&weight=${searchData.weight}&name=${searchData.name}
+        ${process.env.REACT_APP_SERVER_URL}pet?type=${searchData.type}&adoptionStatus=${searchData.adoptionStatus}&height=${searchData.height}&weight=${searchData.weight}&name=${searchData.name}
       `)
       setPets(res.data)
       showLoader(false)

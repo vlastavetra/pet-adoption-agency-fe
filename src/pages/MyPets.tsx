@@ -15,7 +15,7 @@ function MyPets() {
   const getUsersPets = async () => {
     showLoader(true)
     try {
-      const res = await axios.get("http://127.0.0.1:4000/user/pets", { headers: { authorization: `Bearer ${token}` } })
+      const res = await axios.get(`${process.env.REACT_APP_SERVER_URL}user/pets`, { headers: { authorization: `Bearer ${token}` } })
       setOwnedPets(res.data.ownedPets)
       setSavedPets(res.data.savedPets)
       showLoader(false)

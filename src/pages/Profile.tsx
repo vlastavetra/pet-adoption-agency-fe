@@ -17,7 +17,7 @@ function Profile() {
 
   const getUserData = async () => {
     try {
-      const res = await axios.get(`http://127.0.0.1:4000/user/${userId}`, { headers: { authorization: `Bearer ${token}` } })
+      const res = await axios.get(`${process.env.REACT_APP_SERVER_URL}user/${userId}`, { headers: { authorization: `Bearer ${token}` } })
       if (res.data) {
         setUserData(res.data)
         setisLoaded(true)
