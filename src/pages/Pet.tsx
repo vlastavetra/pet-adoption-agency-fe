@@ -35,7 +35,7 @@ function Pet() {
   const getPet = async () => {
     try {
       showLoader(true)
-      const res = await axios.get(`http://127.0.0.1:4000/pet/${petId}`, { headers: { authorization: `Bearer ${token}` } })
+      const res = await axios.get(`${process.env.REACT_APP_SERVER_URL}pet/${petId}`, { headers: { authorization: `Bearer ${token}` } })
       setPet(res.data)
       showLoader(false)
     } catch (err) {
@@ -45,7 +45,7 @@ function Pet() {
 
   const updatePetStatus = async (action: string) => {
     try {
-      const res = await axios.patch(`http://127.0.0.1:4000/pet/${petId}/${action}`, {}, { headers: { authorization: `Bearer ${token}` } })
+      const res = await axios.patch(`${process.env.REACT_APP_SERVER_URL}pet/${petId}/${action}`, {}, { headers: { authorization: `Bearer ${token}` } })
       setPet(res.data)
     } catch (err) {
       console.log(err);

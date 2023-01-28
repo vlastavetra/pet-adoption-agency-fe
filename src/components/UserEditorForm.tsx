@@ -36,7 +36,7 @@ const UserEditorForm: FC<UserEditorFormProps> = ({ email, firstname, lastname, p
   const onClickHandlerCreate = async (e?: Event) => {
     e?.preventDefault()
     try {
-      const res = await axios.post("http://127.0.0.1:4000/signup", userData)
+      const res = await axios.post(`${process.env.REACT_APP_SERVER_URL}signup`, userData)
 
       if (res.data) {
         showSignupModal!(false)
@@ -65,7 +65,7 @@ const UserEditorForm: FC<UserEditorFormProps> = ({ email, firstname, lastname, p
     const data = getUpdates()
     e?.preventDefault()
     try {
-      const res = await axios.patch(`http://127.0.0.1:4000/user/${userId}`, data, { headers: { authorization: `Bearer ${token}` } })
+      const res = await axios.patch(`${process.env.REACT_APP_SERVER_URL}user/${userId}`, data, { headers: { authorization: `Bearer ${token}` } })
       if (res.data) {console.log(res.data)}
     } catch (err) {
       console.log(err);

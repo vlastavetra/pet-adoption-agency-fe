@@ -33,7 +33,7 @@ const LoginModal: FC<LoginModalProps> = ({ showLoginModal }) => {
     checkValid()
     if(valid) {
       try {
-        const res = await axios.post("http://127.0.0.1:4000/user/login", userData)
+        const res = await axios.post(`${process.env.REACT_APP_SERVER_URL}user/login`, userData)
   
         if (res.data.token) {
           localStorage.setItem("user", `${res.data.firstname} ${res.data.lastname}`)

@@ -13,7 +13,7 @@ const SignupModal: FC<SignupModalProps> = ({ showSignupModal }) => {
 
   const setData = async () => {
     try {
-      const res = await axios.post("http://127.0.0.1:4000/user/signup", userData)
+      const res = await axios.post(`${process.env.REACT_APP_SERVER_URL}user/signup`, userData)
 
       if (res.data) {
         showSignupModal!(false)

@@ -26,7 +26,7 @@ function User() {
   const getUserData = async () => {
     try {
       showLoader(true)
-      const res = await axios.get(`http://127.0.0.1:4000/user/${userId}/full`, { headers: { authorization: `Bearer ${token}` } })
+      const res = await axios.get(`${process.env.REACT_APP_SERVER_URL}user/${userId}/full`, { headers: { authorization: `Bearer ${token}` } })
       if (res.data) {
         setUserData(res.data._doc)
         setUserPets(res.data)
